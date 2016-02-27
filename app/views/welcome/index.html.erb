@@ -10,8 +10,8 @@ var map = new mapboxgl.Map({
     zoom: 9 // starting zoom
 });
 </script>
-<form>
-	How far do you want to run?<br>
-	<input type="text" name="firstname"><br>
+<form action="/get_directions">
+	How many miles do you want to run?<br>
+	<input type="text" name="distance"><br>
 	<input type="submit" value="Run!">
 </form>
