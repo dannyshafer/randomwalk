@@ -1,7 +1,3 @@
-<h1>Welcome to RandomWalk</h1>
-
-<div id='map'></div>
-<script>
 mapboxgl.accessToken = 'pk.eyJ1IjoicmFuZG9td2FsayIsImEiOiJjaWw0Y3B5dzEwMjl1dGhseXcyOWh5NGJpIn0.ZKl7LVbPulKaAqQjbsMJfQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
@@ -9,4 +5,3 @@ var map = new mapboxgl.Map({
     center: [-74.50, 40], // starting position
     zoom: 9 // starting zoom
 });
-</script>
