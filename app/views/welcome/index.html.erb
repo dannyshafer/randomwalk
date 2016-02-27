@@ -1,15 +1,97 @@
 <h1>Welcome to RandomWalk</h1>
 
-<div id='map'></div>
+<button onclick="getLocation()" style="font-size: 21pt">Get Current Location</button>
+
+<p id="location-coords"></p>
 <script>
-mapboxgl.accessToken = 'pk.eyJ1IjoicmFuZG9td2FsayIsImEiOiJjaWw0Y3B5dzEwMjl1dGhseXcyOWh5NGJpIn0.ZKl7LVbPulKaAqQjbsMJfQ';
-var map = new mapboxgl.Map({
+var myPosition;
+var map;
+var x = document.getElementById("location-coords");
+function getLocation() {
+  if (navigator.geolocation) {
+    var spinner = new Spinner().spin(x);
+
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+      x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+function showPosition(position) {
+  mapboxgl.accessToken = 'pk.eyJ1IjoicmFuZG9td2FsayIsImEiOiJjaWw0Y3B5dzEwMjl1dGhseXcyOWh5NGJpIn0.ZKl7LVbPulKaAqQjbsMJfQ';
+  map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v8', //stylesheet location
-    center: [-122.393448,37.781031], // starting position. This needs to be the user's current location.
-    zoom: 9 // starting zoom
-});
+
+    center: [position.coords.longitude, position.coords.latitude], // starting position. This needs to be the user's current location.
+    zoom: 11 // starting zoom
+  });
+
+  map.on('click', function(e) {
+    // Use featuresAt to get features within a given radius of the click event
+    // Use layer option to avoid getting results from other layers
+    map.featuresAt(e.point, {layer: 'symbols', radius: 10, includeGeometry: true}, function (err, features) {
+      if (err) throw err;
+      // if there are features within the given radius of the click event,
+      // fly to the location of the click event
+      if (features.length) {
+        // Get coordinates from the symbol and center the map on those coordinates
+        map.flyTo({center: features[0].geometry.coordinates});
+      }
+    });
+  });
+
+  // Use the same approach as above to indicate that the symbols are clickable
+  // by changing the cursor style to 'pointer'.
+  map.on('mousemove', function (e) {
+    map.featuresAt(e.point, {layer: 'symbols', radius: 10}, function (err, features) {
+      if (err) throw err;
+      map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+    });
+  });
+
+  myPosition = position;
+  x.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude;
+
+  // map.flyTo({center: [position.coords.longitude, position.coords.latitude]});
+
+  map.on('style.load', function () {
+    // add geojson data as a new source
+    map.addSource("symbols", {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": [{
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              position.coords.longitude,
+              position.coords.latitude
+            ]
+          }
+        }]
+      }
+    });
+
+    // add source as a layer and apply some styles
+    map.addLayer({
+      "id": "symbols",
+      "interactive": true,
+      "type": "symbol",
+      "source": "symbols",
+      "layout": {
+        "icon-image": "marker-15"
+      },
+      "paint": {}
+    });
+  });
+}
 </script>
+
+<div id='map'></div>
+
 <form action="/get_directions">
 	How many miles do you want to run?<br>
 	<input type="text" name="distance"><br>
