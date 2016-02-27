@@ -6,7 +6,12 @@ mapboxgl.accessToken = 'pk.eyJ1IjoicmFuZG9td2FsayIsImEiOiJjaWw0Y3B5dzEwMjl1dGhse
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v8', //stylesheet location
-    center: [-74.50, 40], // starting position
+    center: [-122.393448,37.781031], // starting position. This needs to be the user's current location.
     zoom: 9 // starting zoom
 });
 </script>
+<form action="/get_directions">
+	How many miles do you want to run?<br>
+	<input type="text" name="distance"><br>
+	<input type="submit" value="Run!">
+</form>
