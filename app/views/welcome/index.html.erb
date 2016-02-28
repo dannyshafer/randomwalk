@@ -1,4 +1,4 @@
-<h1>Welcome to RandomWalk</h1>
+<h1 class="text-center">Welcome to RandomWalk</h1>
 
 <!-- <button onclick="getLocation()" style="font-size: 21pt">Get Current Location</button> -->
 
@@ -63,8 +63,7 @@ function showPosition(position) {
   });
 
   myPosition = position;
-  x.innerHTML = "Latitude: " + position.coords.latitude + 
-    "<br>Longitude: " + position.coords.longitude;
+  x.innerHTML = "";
 
   // map.flyTo({center: [position.coords.longitude, position.coords.latitude]});
 
@@ -103,40 +102,15 @@ function showPosition(position) {
 }
 </script>
 
-<div id='map'></div>
 
-<style>
-input[type=text]
-{
-    font-size: 24px;
-    font-weight: bold;
-    font-family: Helvetica;
-    width: 300px;
-    padding: 20px;
-    text-align: center;
-}
-input[type=submit]
-{
-    font-size: 24px;
-    font-weight: bold;
-    font-family: Helvetica;
-    background-color: #00CD00;
-    color: #ffffff;
-    width: 300px;
-    height: 100px;
-}
-</style>
-
-<form action="/get_directions">
-	How many miles do you want to run?<br>
-	<input type="text" name="distance"><br>
-	<input id="form-lon" type="hidden" name="lon">
-	<input id="form-lat" type="hidden" name="lat">
-	<input id="form-submit" type="submit" disabled value="Run!" style="font-size: 21pt">
-</form>
-
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<div class="row">
+  <span class="col-lg-1 col-sm-1"></span>
+  <form action="/get_directions" class="col-sm-11 col-lg-3">
+    <span class="center-text">How many miles do you want to run?</span><br><br>
+    <input type="text" name="distance"><br><br>
+    <input id="form-lon" type="hidden" name="lon">
+    <input id="form-lat" type="hidden" name="lat">
+    <input id="form-submit" type="submit" disabled value="Run!" style="font-size: 21pt" class="btn btn-success center-text">
+  </form>
+  <div id='map' class="col-sm-11 col-lg-7"></div>
+</div>
