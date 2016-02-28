@@ -1,7 +1,26 @@
 <br>
-<h1><%= params[:distance] %> Miles of running! Go you!</h1>
-<h1><%= params[:lon] %></h1>
-<h1><%= params[:lat] %></h1>
-MAP AND DIRECTIONS GO HERE
-<h1><%= @destination_lat %></h1>
-<h1><%= @destination_lon %></h1>
+<h1><%= params[:distance] %> miles of running! Go you!</h1>
+
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v1.0.0/mapbox-gl-directions.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v1.0.0/mapbox-gl-directions.css' type='text/css' />
+
+<div id='map'></div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoicmFuZG9td2FsayIsImEiOiJjaWw0Y3B5dzEwMjl1dGhseXcyOWh5NGJpIn0.ZKl7LVbPulKaAqQjbsMJfQ';
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v8',
+  center: [<%= params[:lon] %>, <%= params[:lat] %>],
+  zoom: 13
+});
+
+var directions = new mapboxgl.Directions({
+  profile: 'walking'
+});
+
+directions.setOrigin([<%= params[:lon] %>, <%= params[:lat] %>]);
+directions.setDestination([<%= @destination_lon %>, <%= @destination_lat %>]);
+
+map.addControl(directions);
+</script>

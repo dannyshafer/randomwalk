@@ -1,12 +1,20 @@
 <h1>Welcome to RandomWalk</h1>
 
-<button onclick="getLocation()" style="font-size: 21pt">Get Current Location</button>
+<!-- <button onclick="getLocation()" style="font-size: 21pt">Get Current Location</button> -->
 
-<p id="location-coords"></p>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  getLocation();
+}, false);
+</script>
+
+<p id="location-coords">Getting current location...</p>
+
 <script>
 var myPosition;
 var map;
 var x = document.getElementById("location-coords");
+
 function getLocation() {
   if (navigator.geolocation) {
     var spinner = new Spinner().spin(x);
@@ -16,7 +24,12 @@ function getLocation() {
       x.innerHTML = "Geolocation is not supported by this browser.";
   }
 }
+
 function showPosition(position) {
+  document.getElementById("form-lon").value = position.coords.longitude;
+  document.getElementById("form-lat").value = position.coords.latitude;
+  document.getElementById("form-submit").disabled = false;
+
   mapboxgl.accessToken = 'pk.eyJ1IjoicmFuZG9td2FsayIsImEiOiJjaWw0Y3B5dzEwMjl1dGhseXcyOWh5NGJpIn0.ZKl7LVbPulKaAqQjbsMJfQ';
   map = new mapboxgl.Map({
     container: 'map', // container id
@@ -92,10 +105,38 @@ function showPosition(position) {
 
 <div id='map'></div>
 
+<style>
+input[type=text]
+{
+    font-size: 24px;
+    font-weight: bold;
+    font-family: Helvetica;
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+}
+input[type=submit]
+{
+    font-size: 24px;
+    font-weight: bold;
+    font-family: Helvetica;
+    background-color: #00CD00;
+    color: #ffffff;
+    width: 300px;
+    height: 100px;
+}
+</style>
+
 <form action="/get_directions">
 	How many miles do you want to run?<br>
 	<input type="text" name="distance"><br>
-	<input type="hidden" name="lon" value="-122.393448"> <!-- update these to pass the current longitude -->
-	<input type="hidden" name="lat" value="37.781031"> <!-- update these to pass the current latitude -->
-	<input type="submit" value="Run!">
+	<input id="form-lon" type="hidden" name="lon">
+	<input id="form-lat" type="hidden" name="lat">
+	<input id="form-submit" type="submit" disabled value="Run!" style="font-size: 21pt">
 </form>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
