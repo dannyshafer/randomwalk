@@ -2,7 +2,8 @@ class WelcomeController < ApplicationController
 
 	def get_directions
 		path = get_compass_path
-		distance_per_segment = params[:distance].to_f / 4
+		params[:distance] = params[:distance].to_f*0.78 
+		distance_per_segment = params[:distance] / 4
 		waypoints = [[params[:lon], params[:lat]]]
 		current_waypoint_index = 0
 		
@@ -30,36 +31,52 @@ class WelcomeController < ApplicationController
 				lon += 0.01452156831
 				miles -= 1
 			end
-			while miles > 0
+			while miles > 0.1
 				lon += 0.00145215683
 				miles -= 0.1
+			end
+			while miles > 0
+				lon += 0.000145215683
+				miles -= 0.01
 			end
 		when 2 #south
 			while miles > 1
 				lon -= 0.01452156831
 				miles -= 1
 			end
-			while miles > 0
+			while miles > 0.1
 				lon -= 0.00145215683
 				miles -= 0.1
+			end
+			while miles > 0
+				lon -= 0.000145215683
+				miles -= 0.01
 			end
 		when 3 #east
 			while miles > 1
 				lat += 0.01452156831
 				miles -= 1
 			end
-			while miles > 0
+			while miles > 0.1
 				lat += 0.00145215683
 				miles -= 0.1
+			end
+			while miles > 0
+				lat += 0.000145215683
+				miles -= 0.01
 			end
 		when 4 #west
 			while miles > 1
 				lat -= 0.01452156831
 				miles -= 1
 			end
-			while miles > 0
+			while miles > 0.1
 				lat -= 0.00145215683
 				miles -= 0.1
+			end
+			while miles > 0
+				lat -= 0.000145215683
+				miles -= 0.01
 			end
 		end
 		return lon, lat
