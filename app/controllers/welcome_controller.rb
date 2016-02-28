@@ -2,7 +2,7 @@ class WelcomeController < ApplicationController
 
 	def get_directions
 		path = get_compass_path
-		params[:distance] = params[:distance].to_f*0.775 
+		params[:distance] = params[:distance].to_f*0.78 
 		distance_per_segment = params[:distance] / 4
 		waypoints = [[params[:lon], params[:lat]]]
 		current_waypoint_index = 0
