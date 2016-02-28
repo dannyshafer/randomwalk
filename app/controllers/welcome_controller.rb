@@ -2,17 +2,28 @@ class WelcomeController < ApplicationController
 
 	def get_directions
 		path = get_compass_path
-		@destination_lon, @destination_lat = get_destination(params[:lon], params[:lat], params[:distance])
-		# @directions = HTTParty.get("https://api.mapbox.com/v4/directions/mapbox.walking/#{params[:lon]},#{params[:lat]};#{@destination_lon},#{@destination_lat}.json?access_token=pk.eyJ1IjoicmFuZG9td2FsayIsImEiOiJjaWw0Y3B5dzEwMjl1dGhseXcyOWh5NGJpIn0.ZKl7LVbPulKaAqQjbsMJfQ")
+		distance_per_segment = params[:distance].to_f / 4
+		waypoints = [[params[:lon], params[:lat]]]
+		current_waypoint_index = 0
+		
+		path.each do |segment|
+			@destination_lon, @destination_lat = get_destination(waypoints[current_waypoint_index][0], waypoints[current_waypoint_index][1], distance_per_segment, segment)
+			waypoints << [@destination_lon, @destination_lat]
+			current_waypoint_index += 1
+		end
+
+		waypoints.join(";")
+
+		@exported_waypoints = waypoints
 	end
 
 	private
 
-	def get_destination(lon, lat, miles)
+	def get_destination(lon, lat, miles, cardinal_direction)
 		miles = miles.to_f
 		lon = lon.to_f
 		lat = lat.to_f
-		direction = [1,2,3,4].sample
+		direction = cardinal_direction
 		case direction
 		when 1 #north
 			while miles > 1
