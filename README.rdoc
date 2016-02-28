@@ -1,9 +1,8 @@
 == README
 
-A vanilla Rails app that already has Devise users in it so you don't have to go through the whole configuration every time.
+RandomWalk: take the scenic route. 
 
-Also, configured and ready for Heroku. Good day!
+Running is a super accessible exercise that gives the runner a good cardio work out and lets him or her take in the city. But often as runners, we find ourselves running the same routes over and over again. RandomWalk was made by Daniel Shafer and Elliot Lee to make their runs more dynamic. Once they agree on a distance for how far they want to run, they can simply enter the mile distance and allow RandomWalk to serve a custom route. The path will take them away from home, through the city, and deliver them safely back at the end. With its propensity to create circuitous courses, RandomWalk ensures that the run will be interesting and fresh each time. 
 
-1. Bundle.
-2. Migrate.
-3. Profit.
+http://randomwalk.club
+https://polar-cliffs-61889.herokuapp.com/
