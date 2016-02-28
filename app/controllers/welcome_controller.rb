@@ -1,6 +1,7 @@
 class WelcomeController < ApplicationController
 
 	def get_directions
+		path = get_compass_path
 		@destination_lon, @destination_lat = get_destination(params[:lon], params[:lat], params[:distance])
 		# @directions = HTTParty.get("https://api.mapbox.com/v4/directions/mapbox.walking/#{params[:lon]},#{params[:lat]};#{@destination_lon},#{@destination_lat}.json?access_token=pk.eyJ1IjoicmFuZG9td2FsayIsImEiOiJjaWw0Y3B5dzEwMjl1dGhseXcyOWh5NGJpIn0.ZKl7LVbPulKaAqQjbsMJfQ")
 	end
@@ -51,5 +52,25 @@ class WelcomeController < ApplicationController
 			end
 		end
 		return lon, lat
+	end
+
+	def get_compass_path
+		# north = 1, south = 2, east = 3, west = 4
+		first_direction = [1,2,3,4].sample
+		case first_direction 
+		when 1
+			second_direction = [3,4].sample
+			third_direction = 2
+		when 2
+			second_direction = [3,4].sample
+			third_direction = 1
+		when 3
+			second_direction = [1,2].sample
+			third_direction = 4
+		when 4
+			second_direction = [1,2].sample
+			third_direction = 3
+		end
+		return [first_direction, second_direction, third_direction]
 	end
 end
