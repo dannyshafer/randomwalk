@@ -9,17 +9,47 @@ class WelcomeController < ApplicationController
 	private
 
 	def get_destination(lon, lat, miles)
-		#randomizes which compass direction
 		miles = miles.to_f
 		lon = lon.to_f
 		lat = lat.to_f
-		while miles > 1
-			lat += 0.01452156831
-			miles -= 1
-		end
-		while miles > 0
-			lat += 0.00145215683
-			miles -= 0.1
+		direction = [1,2,3,4].sample
+		case direction
+		when 1 #north
+			while miles > 1
+				lon += 0.01452156831
+				miles -= 1
+			end
+			while miles > 0
+				lon += 0.00145215683
+				miles -= 0.1
+			end
+		when 2 #south
+			while miles > 1
+				lon -= 0.01452156831
+				miles -= 1
+			end
+			while miles > 0
+				lon -= 0.00145215683
+				miles -= 0.1
+			end
+		when 3 #east
+			while miles > 1
+				lat += 0.01452156831
+				miles -= 1
+			end
+			while miles > 0
+				lat += 0.00145215683
+				miles -= 0.1
+			end
+		when 4 #west
+			while miles > 1
+				lat -= 0.01452156831
+				miles -= 1
+			end
+			while miles > 0
+				lat -= 0.00145215683
+				miles -= 0.1
+			end
 		end
 		return lon, lat
 	end
