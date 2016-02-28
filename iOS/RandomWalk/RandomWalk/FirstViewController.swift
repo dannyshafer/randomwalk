@@ -40,9 +40,9 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         /* Now instantiate the web view */
         webView = WKWebView(frame: view.bounds, configuration: configuration)
         
-        if let theWebView = webView{
+        if let theWebView = webView {
             /* Load a web page into our web view */
-            let url = NSURL(string: "http://www.apple.com")
+            let url = NSURL(string: "https://polar-cliffs-61889.herokuapp.com/")
             let urlRequest = NSURLRequest(URL: url!)
             theWebView.loadRequest(urlRequest)
             theWebView.navigationDelegate = self
@@ -52,4 +52,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         
     }
     
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
 }
