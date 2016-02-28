@@ -1,25 +1,55 @@
-//
-//  FirstViewController.swift
-//  RandomWalk
-//
-//  Created by E on 2/28/16.
-//  Copyright © 2016 RandomWalk. All rights reserved.
-//
-
 import UIKit
+import WebKit
 
-class FirstViewController: UIViewController {
-
+class FirstViewController: UIViewController, WKNavigationDelegate {
+    var webView: WKWebView?
+    
+    /* Start the network activity indicator when the web view is loading */
+    func webView(webView: WKWebView,
+        didStartProvisionalNavigation navigation: WKNavigation){
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    /* Stop the network activity indicator when the loading finishes */
+    func webView(webView: WKWebView,
+        didFinishNavigation navigation: WKNavigation){
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
+    
+    func webView(webView: WKWebView,
+        decidePolicyForNavigationResponse navigationResponse: WKNavigationResponse,
+        decisionHandler: ((WKNavigationResponsePolicy) -> Void)){
+            
+            print(navigationResponse.response.MIMEType)
+            
+            decisionHandler(.Allow)
+            
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        /* Create our preferences on how the web page should be loaded */
+        let preferences = WKPreferences()
+//        preferences.javaScriptEnabled = false
+        
+        /* Create a configuration for our preferences */
+        let configuration = WKWebViewConfiguration()
+        configuration.preferences = preferences
+        
+        /* Now instantiate the web view */
+        webView = WKWebView(frame: view.bounds, configuration: configuration)
+        
+        if let theWebView = webView{
+            /* Load a web page into our web view */
+            let url = NSURL(string: "http://www.apple.com")
+            let urlRequest = NSURLRequest(URL: url!)
+            theWebView.loadRequest(urlRequest)
+            theWebView.navigationDelegate = self
+            view.addSubview(theWebView)
+            
+        }
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
+    
 }
-
